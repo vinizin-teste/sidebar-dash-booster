@@ -76,7 +76,7 @@ const Sidebar = ({ signOut, profile, selected, setSelected }: {
         />
         <Option
           Icon={PlayCircle}
-          title="VIDEO AULA"
+          title="Vídeo aula"
           selected={selected}
           setSelected={setSelected}
           open={open}
