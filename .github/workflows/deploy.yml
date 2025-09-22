@@ -3,41 +3,36 @@ name: Deploy to Hostinger
 on:
   push:
     branches:
-      - main  # ou a branch que você usa para deploy
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout código
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Instalar Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Instalar dependências
+      - name: Install dependencies
         run: npm install
 
-      - name: Build projeto
+      - name: Build project
         run: npm run build
 
-      - name: Criar .htaccess para SPA
-        run: |
-          echo "RewriteEngine On" > build/.htaccess
-          echo "RewriteBase /" >> build/.htaccess
-          echo "RewriteCond %{REQUEST_FILENAME} !-f" >> build/.htaccess
-          echo "RewriteCond %{REQUEST_FILENAME} !-d" >> build/.htaccess
-          echo "RewriteRule ^ index.html [L]" >> build/.htaccess
+      # copia o .htaccess para dentro do dist/
+      - name: Copy .htaccess
+        run: cp .htaccess dist/.htaccess
 
-      - name: Deploy via FTP
+      - name: Deploy to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          local-dir: build
+          local-dir: dist
           server-dir: public_html
