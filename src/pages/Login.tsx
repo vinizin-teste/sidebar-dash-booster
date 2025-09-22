@@ -30,10 +30,6 @@ const Login = () => {
     alert(`Login Enviado! Verifique o console do navegador para os dados do formulário.`);
   };
 
-  const handleGoogleSignIn = () => {
-    console.log("Continuar com Google clicado");
-    alert("Continuar com Google clicado");
-  };
   
   const handleResetPassword = () => {
     alert("Redefinir Senha clicado");
@@ -49,7 +45,6 @@ const Login = () => {
         heroImageSrc="https://imgur.com/a/PlvgXuq"
         testimonials={sampleTestimonials}
         onSignIn={handleSignIn}
-        onGoogleSignIn={handleGoogleSignIn}
         onResetPassword={handleResetPassword}
         onCreateAccount={handleCreateAccount}
       />
