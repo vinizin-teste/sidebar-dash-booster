@@ -5,8 +5,6 @@ import {
   DollarSign,
   Monitor,
   ShoppingCart,
-  Tag,
-  BarChart3,
   Users,
   ChevronDown,
   ChevronsRight,
@@ -16,9 +14,6 @@ import {
   Activity,
   Package,
   Bell,
-  Settings,
-  HelpCircle,
-  User,
 } from "lucide-react";
 
 export const Example = () => {
@@ -44,7 +39,7 @@ export const Example = () => {
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
-  const [selected, setSelected] = useState("Dashboard");
+  const [selected, setSelected] = useState("Painel");
 
   return (
     <nav
@@ -57,14 +52,14 @@ const Sidebar = () => {
       <div className="space-y-1 mb-8">
         <Option
           Icon={Home}
-          title="Dashboard"
+          title="Painel"
           selected={selected}
           setSelected={setSelected}
           open={open}
         />
         <Option
           Icon={DollarSign}
-          title="Sales"
+          title="Vendas"
           selected={selected}
           setSelected={setSelected}
           open={open}
@@ -72,63 +67,27 @@ const Sidebar = () => {
         />
         <Option
           Icon={Monitor}
-          title="View Site"
+          title="Ver Site"
           selected={selected}
           setSelected={setSelected}
           open={open}
         />
         <Option
           Icon={ShoppingCart}
-          title="Products"
-          selected={selected}
-          setSelected={setSelected}
-          open={open}
-        />
-        <Option
-          Icon={Tag}
-          title="Tags"
-          selected={selected}
-          setSelected={setSelected}
-          open={open}
-        />
-        <Option
-          Icon={BarChart3}
-          title="Analytics"
+          title="Produtos"
           selected={selected}
           setSelected={setSelected}
           open={open}
         />
         <Option
           Icon={Users}
-          title="Members"
+          title="Membros"
           selected={selected}
           setSelected={setSelected}
           open={open}
           notifs={12}
         />
       </div>
-
-      {open && (
-        <div className="border-t border-gray-200 dark:border-gray-800 pt-4 space-y-1">
-          <div className="px-3 py-2 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-            Account
-          </div>
-          <Option
-            Icon={Settings}
-            title="Settings"
-            selected={selected}
-            setSelected={setSelected}
-            open={open}
-          />
-          <Option
-            Icon={HelpCircle}
-            title="Help & Support"
-            selected={selected}
-            setSelected={setSelected}
-            open={open}
-          />
-        </div>
-      )}
 
       <ToggleClose open={open} setOpen={setOpen} />
     </nav>
@@ -188,10 +147,10 @@ const TitleSection = ({ open }: { open: boolean }) => {
               <div className="flex items-center gap-2">
                 <div>
                   <span className="block text-sm font-semibold text-gray-900 dark:text-gray-100">
-                    TomIsLoading
+                    Minha Empresa
                   </span>
                   <span className="block text-xs text-gray-500 dark:text-gray-400">
-                    Pro Plan
+                    Plano Pro
                   </span>
                 </div>
               </div>
@@ -248,7 +207,7 @@ const ToggleClose = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean
               open ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            Hide
+            Ocultar
           </span>
         )}
       </div>
@@ -262,8 +221,8 @@ const ExampleContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (is
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">Welcome back to your dashboard</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Painel</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Bem-vindo ao seu painel</p>
         </div>
         <div className="flex items-center gap-4">
           <button className="relative p-2 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
@@ -280,9 +239,6 @@ const ExampleContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (is
               <Moon className="h-4 w-4" />
             )}
           </button>
-          <button className="p-2 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
-            <User className="h-5 w-5" />
-          </button>
         </div>
       </div>
       
@@ -295,9 +251,9 @@ const ExampleContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (is
             </div>
             <TrendingUp className="h-4 w-4 text-green-500" />
           </div>
-          <h3 className="font-medium text-gray-600 dark:text-gray-400 mb-1">Total Sales</h3>
-          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">$24,567</p>
-          <p className="text-sm text-green-600 dark:text-green-400 mt-1">+12% from last month</p>
+          <h3 className="font-medium text-gray-600 dark:text-gray-400 mb-1">Vendas Totais</h3>
+          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">R$ 124.567</p>
+          <p className="text-sm text-green-600 dark:text-green-400 mt-1">+12% do mês passado</p>
         </div>
         
         <div className="p-6 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow">
@@ -307,9 +263,9 @@ const ExampleContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (is
             </div>
             <TrendingUp className="h-4 w-4 text-green-500" />
           </div>
-          <h3 className="font-medium text-gray-600 dark:text-gray-400 mb-1">Active Users</h3>
-          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">1,234</p>
-          <p className="text-sm text-green-600 dark:text-green-400 mt-1">+5% from last week</p>
+          <h3 className="font-medium text-gray-600 dark:text-gray-400 mb-1">Usuários Ativos</h3>
+          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">1.234</p>
+          <p className="text-sm text-green-600 dark:text-green-400 mt-1">+5% da semana passada</p>
         </div>
         
         <div className="p-6 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow">
@@ -319,9 +275,9 @@ const ExampleContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (is
             </div>
             <TrendingUp className="h-4 w-4 text-green-500" />
           </div>
-          <h3 className="font-medium text-gray-600 dark:text-gray-400 mb-1">Orders</h3>
+          <h3 className="font-medium text-gray-600 dark:text-gray-400 mb-1">Pedidos</h3>
           <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">456</p>
-          <p className="text-sm text-green-600 dark:text-green-400 mt-1">+8% from yesterday</p>
+          <p className="text-sm text-green-600 dark:text-green-400 mt-1">+8% de ontem</p>
         </div>
 
         <div className="p-6 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow">
@@ -331,9 +287,9 @@ const ExampleContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (is
             </div>
             <TrendingUp className="h-4 w-4 text-green-500" />
           </div>
-          <h3 className="font-medium text-gray-600 dark:text-gray-400 mb-1">Products</h3>
+          <h3 className="font-medium text-gray-600 dark:text-gray-400 mb-1">Produtos</h3>
           <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">89</p>
-          <p className="text-sm text-green-600 dark:text-green-400 mt-1">+3 new this week</p>
+          <p className="text-sm text-green-600 dark:text-green-400 mt-1">+3 novos esta semana</p>
         </div>
       </div>
       
@@ -343,18 +299,18 @@ const ExampleContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (is
         <div className="lg:col-span-2">
           <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Recent Activity</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Atividade Recente</h3>
               <button className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
-                View all
+                Ver tudo
               </button>
             </div>
             <div className="space-y-4">
               {[
-                { icon: DollarSign, title: "New sale recorded", desc: "Order #1234 completed", time: "2 min ago", color: "green" },
-                { icon: Users, title: "New user registered", desc: "john.doe@example.com joined", time: "5 min ago", color: "blue" },
-                { icon: Package, title: "Product updated", desc: "iPhone 15 Pro stock updated", time: "10 min ago", color: "purple" },
-                { icon: Activity, title: "System maintenance", desc: "Scheduled backup completed", time: "1 hour ago", color: "orange" },
-                { icon: Bell, title: "New notification", desc: "Marketing campaign results", time: "2 hours ago", color: "red" },
+                { icon: DollarSign, title: "Nova venda registrada", desc: "Pedido #1234 concluído", time: "2 min atrás", color: "green" },
+                { icon: Users, title: "Novo usuário registrado", desc: "joao.silva@exemplo.com se juntou", time: "5 min atrás", color: "blue" },
+                { icon: Package, title: "Produto atualizado", desc: "iPhone 15 Pro estoque atualizado", time: "10 min atrás", color: "purple" },
+                { icon: Activity, title: "Manutenção do sistema", desc: "Backup agendado concluído", time: "1 hora atrás", color: "orange" },
+                { icon: Bell, title: "Nova notificação", desc: "Resultados da campanha de marketing", time: "2 horas atrás", color: "red" },
               ].map((activity, i) => (
                 <div key={i} className="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer">
                   <div className={`p-2 rounded-lg ${
@@ -392,18 +348,18 @@ const ExampleContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (is
         {/* Quick Stats */}
         <div className="space-y-6">
           <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Stats</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Estatísticas Rápidas</h3>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600 dark:text-gray-400">Conversion Rate</span>
-                <span className="text-sm font-medium text-gray-900 dark:text-gray-100">3.2%</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">Taxa de Conversão</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-gray-100">3,2%</span>
               </div>
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                 <div className="bg-blue-500 h-2 rounded-full" style={{ width: '32%' }}></div>
               </div>
               
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600 dark:text-gray-400">Bounce Rate</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">Taxa de Rejeição</span>
                 <span className="text-sm font-medium text-gray-900 dark:text-gray-100">45%</span>
               </div>
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
@@ -411,8 +367,8 @@ const ExampleContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (is
               </div>
               
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600 dark:text-gray-400">Page Views</span>
-                <span className="text-sm font-medium text-gray-900 dark:text-gray-100">8.7k</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">Visualizações</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-gray-100">8,7k</span>
               </div>
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                 <div className="bg-green-500 h-2 rounded-full" style={{ width: '87%' }}></div>
@@ -421,13 +377,13 @@ const ExampleContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (is
           </div>
 
           <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Top Products</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Produtos em Destaque</h3>
             <div className="space-y-3">
               {['iPhone 15 Pro', 'MacBook Air M2', 'AirPods Pro', 'iPad Air'].map((product, i) => (
                 <div key={i} className="flex items-center justify-between py-2">
                   <span className="text-sm text-gray-600 dark:text-gray-400">{product}</span>
                   <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                    ${Math.floor(Math.random() * 1000 + 500)}
+                    R$ {Math.floor(Math.random() * 2000 + 1000)}
                   </span>
                 </div>
               ))}
