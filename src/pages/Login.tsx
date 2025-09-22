@@ -1,4 +1,5 @@
 import { SignInPage, Testimonial } from "@/components/ui/sign-in";
+import heroImage from "@/assets/sejam-bem-vindos.png";
 
 const sampleTestimonials: Testimonial[] = [
   {
@@ -42,7 +43,7 @@ const Login = () => {
   return (
     <div className="bg-background text-foreground">
       <SignInPage
-        heroImageSrc="https://imgur.com/a/PlvgXuq"
+        heroImageSrc={heroImage}
         testimonials={sampleTestimonials}
         onSignIn={handleSignIn}
         onResetPassword={handleResetPassword}
