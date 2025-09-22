@@ -3,7 +3,7 @@ name: Deploy Vite App to Hostinger via FTP
 on:
   push:
     branches:
-      - main   # toda vez que você fizer push na branch main, ele vai rodar
+      - main  # dispara sempre que você fizer push na branch main
 
 jobs:
   build-and-deploy:
@@ -13,10 +13,10 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v3
 
-      - name: Configurar Node.js
+      - name: Instalar Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: '18'
 
       - name: Instalar dependências
         run: npm install
@@ -25,10 +25,10 @@ jobs:
         run: npm run build
 
       - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4
+        uses: SamKirkland/FTP-Deploy-Action@4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: public_html/   # pasta da Hostinger
-          local-dir: dist/           # pasta gerada pelo build
+          local-dir: ./dist
+          server-dir: /public_html
