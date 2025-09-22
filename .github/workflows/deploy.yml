@@ -1,4 +1,4 @@
-name: Deploy Vite App to Hostinger via FTP
+name: Deploy Lovable via FTP na Hostinger
 
 on:
   push:
@@ -36,4 +36,5 @@ jobs:
           local-dir: dist/
           server-dir: public_html/
           dangerous-clean-slate: true
+          dry-run: false
           log-level: verbose
