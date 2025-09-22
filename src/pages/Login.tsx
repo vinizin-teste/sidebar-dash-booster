@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { SignInPage, Testimonial } from "@/components/ui/sign-in";
 import { useToast } from '@/hooks/use-toast';
+import amazonShopping from '@/assets/amazon-shopping.jpg';
 
 const sampleTestimonials: Testimonial[] = [
   {
@@ -100,7 +101,7 @@ const Login = () => {
       <SignInPage
         title={isRegistering ? "Criar Conta" : "Bem-vindo"}
         description={isRegistering ? "Crie sua conta e junte-se a nós" : "Acesse sua conta e continue sua jornada conosco"}
-        heroImageSrc="https://imgur.com/a/PlvgXuq"
+        heroImageSrc={amazonShopping}
         testimonials={sampleTestimonials}
         onSignIn={isRegistering ? handleSignUp : handleSignIn}
         onResetPassword={handleResetPassword}
