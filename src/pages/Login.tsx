@@ -94,12 +94,6 @@ const Login = () => {
     setIsRegistering(true);
   };
 
-  const handleGoogleSignIn = () => {
-    toast({
-      title: "Em breve",
-      description: "Login com Google em desenvolvimento"
-    });
-  };
 
   return (
     <div className="bg-background text-foreground">
@@ -109,7 +103,6 @@ const Login = () => {
         heroImageSrc="https://imgur.com/a/PlvgXuq"
         testimonials={sampleTestimonials}
         onSignIn={isRegistering ? handleSignUp : handleSignIn}
-        onGoogleSignIn={handleGoogleSignIn}
         onResetPassword={handleResetPassword}
         onCreateAccount={handleCreateAccount}
         isRegistering={isRegistering}
