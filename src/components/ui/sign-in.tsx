@@ -58,67 +58,67 @@ export const SignInPage: React.FC<SignInPageProps> = ({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="h-[100dvh] flex flex-col md:flex-row font-geist w-[100dvw]">
+    <div className="min-h-[100dvh] flex flex-col md:flex-row font-geist w-[100dvw]">
       {/* Left column: sign-in form */}
-      <section className="flex-1 flex items-center justify-center p-8">
+      <section className="flex-1 flex items-center justify-center p-4 sm:p-6 md:p-8">
         <div className="w-full max-w-md">
-          <div className="flex flex-col gap-6">
-            <div className="animate-element animate-delay-50 flex justify-center mb-4">
+          <div className="flex flex-col gap-4 sm:gap-6">
+            <div className="animate-element animate-delay-50 flex justify-center mb-2 sm:mb-4">
               <img 
                 src={amazonLogoWelcome} 
                 alt="Amazon Logo" 
-                className="w-20 h-20 object-contain"
+                className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
               />
             </div>
-            <h1 className="animate-element animate-delay-100 text-4xl md:text-5xl font-semibold leading-tight">{title}</h1>
-            <p className="animate-element animate-delay-200 text-muted-foreground">{description}</p>
+            <h1 className="animate-element animate-delay-100 text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight text-center sm:text-left">{title}</h1>
+            <p className="animate-element animate-delay-200 text-muted-foreground text-center sm:text-left text-sm sm:text-base">{description}</p>
 
-            <form className="space-y-5" onSubmit={onSignIn}>
+            <form className="space-y-4 sm:space-y-5" onSubmit={onSignIn}>
               <div className="animate-element animate-delay-300">
-                <label className="text-sm font-medium text-muted-foreground">Endereço de Email</label>
+                <label className="text-xs sm:text-sm font-medium text-muted-foreground">Endereço de Email</label>
                 <GlassInputWrapper>
-                  <input name="email" type="email" placeholder="Digite seu endereço de email" className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none" required />
+                  <input name="email" type="email" placeholder="Digite seu endereço de email" className="w-full bg-transparent text-sm p-3 sm:p-4 rounded-2xl focus:outline-none" required />
                 </GlassInputWrapper>
               </div>
 
               {isRegistering && (
                 <div className="animate-element animate-delay-350">
-                  <label className="text-sm font-medium text-muted-foreground">Nome Completo</label>
+                  <label className="text-xs sm:text-sm font-medium text-muted-foreground">Nome Completo</label>
                   <GlassInputWrapper>
-                    <input name="fullName" type="text" placeholder="Digite seu nome completo" className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none" />
+                    <input name="fullName" type="text" placeholder="Digite seu nome completo" className="w-full bg-transparent text-sm p-3 sm:p-4 rounded-2xl focus:outline-none" />
                   </GlassInputWrapper>
                 </div>
               )}
 
               <div className="animate-element animate-delay-400">
-                <label className="text-sm font-medium text-muted-foreground">Senha</label>
+                <label className="text-xs sm:text-sm font-medium text-muted-foreground">Senha</label>
                 <GlassInputWrapper>
                   <div className="relative">
-                    <input name="password" type={showPassword ? 'text' : 'password'} placeholder="Digite sua senha" className="w-full bg-transparent text-sm p-4 pr-12 rounded-2xl focus:outline-none" required />
+                    <input name="password" type={showPassword ? 'text' : 'password'} placeholder="Digite sua senha" className="w-full bg-transparent text-sm p-3 sm:p-4 pr-12 rounded-2xl focus:outline-none" required />
                     <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-3 flex items-center">
-                      {showPassword ? <EyeOff className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" /> : <Eye className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />}
+                      {showPassword ? <EyeOff className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground hover:text-foreground transition-colors" /> : <Eye className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground hover:text-foreground transition-colors" />}
                     </button>
                   </div>
                 </GlassInputWrapper>
               </div>
 
               {!isRegistering && (
-                <div className="animate-element animate-delay-500 flex items-center justify-between text-sm">
+                <div className="animate-element animate-delay-500 flex flex-col sm:flex-row sm:items-center justify-between text-xs sm:text-sm gap-3 sm:gap-0">
                   <label className="flex items-center gap-3 cursor-pointer">
                     <input type="checkbox" name="rememberMe" className="custom-checkbox" />
                     <span className="text-foreground/90">Manter-me conectado</span>
                   </label>
-                  <a href="#" onClick={(e) => { e.preventDefault(); onResetPassword?.(); }} className="hover:underline text-violet-400 transition-colors">Redefinir senha</a>
+                  <a href="#" onClick={(e) => { e.preventDefault(); onResetPassword?.(); }} className="hover:underline text-violet-400 transition-colors text-center sm:text-right">Redefinir senha</a>
                 </div>
               )}
 
-              <button type="submit" className="animate-element animate-delay-600 w-full rounded-2xl bg-primary py-4 font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+              <button type="submit" className="animate-element animate-delay-600 w-full rounded-2xl bg-primary py-3 sm:py-4 font-medium text-primary-foreground hover:bg-primary/90 transition-colors text-sm sm:text-base">
                 {isRegistering ? 'Criar Conta' : 'Entrar'}
               </button>
             </form>
 
 
-            <p className="animate-element animate-delay-800 text-center text-sm text-muted-foreground">
+            <p className="animate-element animate-delay-800 text-center text-xs sm:text-sm text-muted-foreground">
               {isRegistering ? (
                 <>
                   Já tem uma conta? <a href="#" onClick={(e) => { e.preventDefault(); onBackToLogin?.(); }} className="text-violet-400 hover:underline transition-colors">Fazer Login</a>
