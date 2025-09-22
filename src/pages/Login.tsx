@@ -1,5 +1,4 @@
 import { SignInPage, Testimonial } from "@/components/ui/sign-in";
-import heroImage from "@/assets/sejam-bem-vindos.png";
 
 const sampleTestimonials: Testimonial[] = [
   {
@@ -31,6 +30,10 @@ const Login = () => {
     alert(`Login Enviado! Verifique o console do navegador para os dados do formulário.`);
   };
 
+  const handleGoogleSignIn = () => {
+    console.log("Continuar com Google clicado");
+    alert("Continuar com Google clicado");
+  };
   
   const handleResetPassword = () => {
     alert("Redefinir Senha clicado");
@@ -43,9 +46,10 @@ const Login = () => {
   return (
     <div className="bg-background text-foreground">
       <SignInPage
-        heroImageSrc={heroImage}
+        heroImageSrc="https://imgur.com/a/PlvgXuq"
         testimonials={sampleTestimonials}
         onSignIn={handleSignIn}
+        onGoogleSignIn={handleGoogleSignIn}
         onResetPassword={handleResetPassword}
         onCreateAccount={handleCreateAccount}
       />
