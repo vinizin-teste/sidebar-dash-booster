@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import {
   Home,
-  DollarSign,
-  Monitor,
+  Bot,
+  PlayCircle,
   ShoppingCart,
   Users,
   ChevronDown,
@@ -15,6 +15,7 @@ import {
   Package,
   Bell,
   LogOut,
+  DollarSign,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import amazonLogo from "@/assets/amazon-logo.png";
@@ -62,19 +63,20 @@ const Sidebar = ({ signOut, profile }: { signOut: () => void; profile: any }) =>
           open={open}
         />
         <Option
-          Icon={DollarSign}
-          title="Vendas"
+          Icon={Bot}
+          title="Agente AMZ"
           selected={selected}
           setSelected={setSelected}
           open={open}
-          notifs={3}
+          maintenance={true}
         />
         <Option
-          Icon={Monitor}
-          title="Ver Site"
+          Icon={PlayCircle}
+          title="VIDEO AULA"
           selected={selected}
           setSelected={setSelected}
           open={open}
+          maintenance={true}
         />
         <Option
           Icon={ShoppingCart}
@@ -82,6 +84,7 @@ const Sidebar = ({ signOut, profile }: { signOut: () => void; profile: any }) =>
           selected={selected}
           setSelected={setSelected}
           open={open}
+          maintenance={true}
         />
         <Option
           Icon={Users}
@@ -90,6 +93,7 @@ const Sidebar = ({ signOut, profile }: { signOut: () => void; profile: any }) =>
           setSelected={setSelected}
           open={open}
           notifs={12}
+          maintenance={true}
         />
       </div>
 
@@ -114,13 +118,14 @@ const Sidebar = ({ signOut, profile }: { signOut: () => void; profile: any }) =>
   );
 };
 
-const Option = ({ Icon, title, selected, setSelected, open, notifs }: {
+const Option = ({ Icon, title, selected, setSelected, open, notifs, maintenance }: {
   Icon: any;
   title: string;
   selected: string;
   setSelected: (title: string) => void;
   open: boolean;
   notifs?: number;
+  maintenance?: boolean;
 }) => {
   const isSelected = selected === title;
   
@@ -138,16 +143,23 @@ const Option = ({ Icon, title, selected, setSelected, open, notifs }: {
       </div>
       
       {open && (
-        <span
-          className={`text-sm font-medium transition-opacity duration-200 ${
-            open ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          {title}
-        </span>
+        <div className="flex items-center justify-between flex-1 mr-3">
+          <span
+            className={`text-sm font-medium transition-opacity duration-200 ${
+              open ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            {title}
+          </span>
+          {maintenance && (
+            <span className="text-xs px-2 py-1 bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-300 rounded-full font-medium">
+              MANUTENÇÃO
+            </span>
+          )}
+        </div>
       )}
 
-      {notifs && open && (
+      {notifs && open && !maintenance && (
         <span className="absolute right-3 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 dark:bg-blue-600 text-xs text-white font-medium">
           {notifs}
         </span>
@@ -169,8 +181,8 @@ const TitleSection = ({ open, profile }: { open: boolean; profile: any }) => {
                   <span className="block text-sm font-semibold text-gray-900 dark:text-gray-100">
                     {profile?.full_name || profile?.email || 'Usuário'}
                   </span>
-                  <span className="block text-xs text-gray-500 dark:text-gray-400 capitalize">
-                    {profile?.role || 'user'}
+                  <span className="block text-xs text-gray-500 dark:text-gray-400">
+                    {profile?.role === 'admin' ? 'Administrador' : 'Plano Inicial'}
                   </span>
                 </div>
               </div>
