@@ -15,11 +15,13 @@ import {
   Package,
   Bell,
   LogOut,
+  Settings,
+  Shield,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import amazonLogo from "@/assets/amazon-logo.png";
 
-export const Example = () => {
+export const AdminExample = () => {
   const [isDark, setIsDark] = useState(false);
   const { signOut, profile } = useAuth();
 
@@ -34,16 +36,16 @@ export const Example = () => {
   return (
     <div className={`flex min-h-screen w-full ${isDark ? 'dark' : ''}`}>
       <div className="flex w-full bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100">
-        <Sidebar signOut={signOut} profile={profile} />
-        <ExampleContent isDark={isDark} setIsDark={setIsDark} />
+        <AdminSidebar signOut={signOut} profile={profile} />
+        <AdminContent isDark={isDark} setIsDark={setIsDark} />
       </div>
     </div>
   );
 };
 
-const Sidebar = ({ signOut, profile }: { signOut: () => void; profile: any }) => {
+const AdminSidebar = ({ signOut, profile }: { signOut: () => void; profile: any }) => {
   const [open, setOpen] = useState(true);
-  const [selected, setSelected] = useState("Painel");
+  const [selected, setSelected] = useState("Painel Admin");
 
   return (
     <nav
@@ -51,17 +53,25 @@ const Sidebar = ({ signOut, profile }: { signOut: () => void; profile: any }) =>
         open ? 'w-64' : 'w-16'
       } border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-2 shadow-sm`}
     >
-      <TitleSection open={open} profile={profile} />
+      <AdminTitleSection open={open} profile={profile} />
 
       <div className="space-y-1 mb-8">
-        <Option
-          Icon={Home}
-          title="Painel"
+        <AdminOption
+          Icon={Shield}
+          title="Painel Admin"
           selected={selected}
           setSelected={setSelected}
           open={open}
         />
-        <Option
+        <AdminOption
+          Icon={Users}
+          title="Usuários"
+          selected={selected}
+          setSelected={setSelected}
+          open={open}
+          notifs={12}
+        />
+        <AdminOption
           Icon={DollarSign}
           title="Vendas"
           selected={selected}
@@ -69,27 +79,26 @@ const Sidebar = ({ signOut, profile }: { signOut: () => void; profile: any }) =>
           open={open}
           notifs={3}
         />
-        <Option
-          Icon={Monitor}
-          title="Ver Site"
-          selected={selected}
-          setSelected={setSelected}
-          open={open}
-        />
-        <Option
-          Icon={ShoppingCart}
+        <AdminOption
+          Icon={Package}
           title="Produtos"
           selected={selected}
           setSelected={setSelected}
           open={open}
         />
-        <Option
-          Icon={Users}
-          title="Membros"
+        <AdminOption
+          Icon={Settings}
+          title="Configurações"
           selected={selected}
           setSelected={setSelected}
           open={open}
-          notifs={12}
+        />
+        <AdminOption
+          Icon={Activity}
+          title="Analytics"
+          selected={selected}
+          setSelected={setSelected}
+          open={open}
         />
       </div>
 
@@ -109,12 +118,12 @@ const Sidebar = ({ signOut, profile }: { signOut: () => void; profile: any }) =>
         </button>
       </div>
 
-      <ToggleClose open={open} setOpen={setOpen} />
+      <AdminToggleClose open={open} setOpen={setOpen} />
     </nav>
   );
 };
 
-const Option = ({ Icon, title, selected, setSelected, open, notifs }: {
+const AdminOption = ({ Icon, title, selected, setSelected, open, notifs }: {
   Icon: any;
   title: string;
   selected: string;
@@ -129,7 +138,7 @@ const Option = ({ Icon, title, selected, setSelected, open, notifs }: {
       onClick={() => setSelected(title)}
       className={`relative flex h-11 w-full items-center rounded-md transition-all duration-200 ${
         isSelected 
-          ? "bg-blue-50 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 shadow-sm border-l-2 border-blue-500" 
+          ? "bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 shadow-sm border-l-2 border-red-500" 
           : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200"
       }`}
     >
@@ -148,7 +157,7 @@ const Option = ({ Icon, title, selected, setSelected, open, notifs }: {
       )}
 
       {notifs && open && (
-        <span className="absolute right-3 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 dark:bg-blue-600 text-xs text-white font-medium">
+        <span className="absolute right-3 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 dark:bg-red-600 text-xs text-white font-medium">
           {notifs}
         </span>
       )}
@@ -156,21 +165,21 @@ const Option = ({ Icon, title, selected, setSelected, open, notifs }: {
   );
 };
 
-const TitleSection = ({ open, profile }: { open: boolean; profile: any }) => {
+const AdminTitleSection = ({ open, profile }: { open: boolean; profile: any }) => {
   return (
     <div className="mb-6 border-b border-gray-200 dark:border-gray-800 pb-4">
       <div className="flex cursor-pointer items-center justify-between rounded-md p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800">
         <div className="flex items-center gap-3">
-          <Logo />
+          <AdminLogo />
           {open && (
             <div className={`transition-opacity duration-200 ${open ? 'opacity-100' : 'opacity-0'}`}>
               <div className="flex items-center gap-2">
                 <div>
                   <span className="block text-sm font-semibold text-gray-900 dark:text-gray-100">
-                    {profile?.full_name || profile?.email || 'Usuário'}
+                    {profile?.full_name || profile?.email || 'Admin'}
                   </span>
-                  <span className="block text-xs text-gray-500 dark:text-gray-400 capitalize">
-                    {profile?.role || 'user'}
+                  <span className="block text-xs text-red-500 dark:text-red-400 capitalize font-medium">
+                    Administrador
                   </span>
                 </div>
               </div>
@@ -185,7 +194,7 @@ const TitleSection = ({ open, profile }: { open: boolean; profile: any }) => {
   );
 };
 
-const Logo = () => {
+const AdminLogo = () => {
   return (
     <div className="grid size-10 shrink-0 place-content-center rounded-lg bg-white shadow-sm border border-gray-200">
       <img 
@@ -197,7 +206,7 @@ const Logo = () => {
   );
 };
 
-const ToggleClose = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => void }) => {
+const AdminToggleClose = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => void }) => {
   return (
     <button
       onClick={() => setOpen(!open)}
@@ -225,14 +234,14 @@ const ToggleClose = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean
   );
 };
 
-const ExampleContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (isDark: boolean) => void }) => {
+const AdminContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (isDark: boolean) => void }) => {
   return (
     <div className="flex-1 bg-gray-50 dark:bg-gray-950 p-6 overflow-auto">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Painel</h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">Bem-vindo ao seu painel</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Painel Administrativo</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Gerencie usuários, vendas e sistema</p>
         </div>
         <div className="flex items-center gap-4">
           <button className="relative p-2 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
@@ -252,30 +261,30 @@ const ExampleContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (is
         </div>
       </div>
       
-      {/* Stats Grid */}
+      {/* Admin Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="p-6 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-4">
-            <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-              <DollarSign className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+            <div className="p-2 bg-red-50 dark:bg-red-900/20 rounded-lg">
+              <Users className="h-5 w-5 text-red-600 dark:text-red-400" />
             </div>
             <TrendingUp className="h-4 w-4 text-green-500" />
           </div>
-          <h3 className="font-medium text-gray-600 dark:text-gray-400 mb-1">Vendas Totais</h3>
-          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">R$ 124.567</p>
-          <p className="text-sm text-green-600 dark:text-green-400 mt-1">+12% do mês passado</p>
+          <h3 className="font-medium text-gray-600 dark:text-gray-400 mb-1">Total de Usuários</h3>
+          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">2.847</p>
+          <p className="text-sm text-green-600 dark:text-green-400 mt-1">+15% este mês</p>
         </div>
         
         <div className="p-6 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-4">
-            <div className="p-2 bg-green-50 dark:bg-green-900/20 rounded-lg">
-              <Users className="h-5 w-5 text-green-600 dark:text-green-400" />
+            <div className="p-2 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+              <DollarSign className="h-5 w-5 text-orange-600 dark:text-orange-400" />
             </div>
             <TrendingUp className="h-4 w-4 text-green-500" />
           </div>
-          <h3 className="font-medium text-gray-600 dark:text-gray-400 mb-1">Usuários Ativos</h3>
-          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">1.234</p>
-          <p className="text-sm text-green-600 dark:text-green-400 mt-1">+5% da semana passada</p>
+          <h3 className="font-medium text-gray-600 dark:text-gray-400 mb-1">Receita Total</h3>
+          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">R$ 847.250</p>
+          <p className="text-sm text-green-600 dark:text-green-400 mt-1">+28% do mês passado</p>
         </div>
         
         <div className="p-6 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow">
@@ -285,69 +294,61 @@ const ExampleContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (is
             </div>
             <TrendingUp className="h-4 w-4 text-green-500" />
           </div>
-          <h3 className="font-medium text-gray-600 dark:text-gray-400 mb-1">Pedidos</h3>
-          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">456</p>
-          <p className="text-sm text-green-600 dark:text-green-400 mt-1">+8% de ontem</p>
+          <h3 className="font-medium text-gray-600 dark:text-gray-400 mb-1">Pedidos Ativos</h3>
+          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">1.247</p>
+          <p className="text-sm text-green-600 dark:text-green-400 mt-1">+12% da semana passada</p>
         </div>
 
         <div className="p-6 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-4">
-            <div className="p-2 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
-              <Package className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+            <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+              <Package className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             </div>
             <TrendingUp className="h-4 w-4 text-green-500" />
           </div>
           <h3 className="font-medium text-gray-600 dark:text-gray-400 mb-1">Produtos</h3>
-          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">89</p>
-          <p className="text-sm text-green-600 dark:text-green-400 mt-1">+3 novos esta semana</p>
+          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">456</p>
+          <p className="text-sm text-green-600 dark:text-green-400 mt-1">+23 novos esta semana</p>
         </div>
       </div>
       
-      {/* Content Grid */}
+      {/* Admin Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Recent Activity */}
+        {/* User Management */}
         <div className="lg:col-span-2">
           <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Atividade Recente</h3>
-              <button className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
-                Ver tudo
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Gerenciamento de Usuários</h3>
+              <button className="text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium">
+                Ver todos
               </button>
             </div>
             <div className="space-y-4">
               {[
-                { icon: DollarSign, title: "Nova venda registrada", desc: "Pedido #1234 concluído", time: "2 min atrás", color: "green" },
-                { icon: Users, title: "Novo usuário registrado", desc: "joao.silva@exemplo.com se juntou", time: "5 min atrás", color: "blue" },
-                { icon: Package, title: "Produto atualizado", desc: "iPhone 15 Pro estoque atualizado", time: "10 min atrás", color: "purple" },
-                { icon: Activity, title: "Manutenção do sistema", desc: "Backup agendado concluído", time: "1 hora atrás", color: "orange" },
-                { icon: Bell, title: "Nova notificação", desc: "Resultados da campanha de marketing", time: "2 horas atrás", color: "red" },
-              ].map((activity, i) => (
-                <div key={i} className="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer">
-                  <div className={`p-2 rounded-lg ${
-                    activity.color === 'green' ? 'bg-green-50 dark:bg-green-900/20' :
-                    activity.color === 'blue' ? 'bg-blue-50 dark:bg-blue-900/20' :
-                    activity.color === 'purple' ? 'bg-purple-50 dark:bg-purple-900/20' :
-                    activity.color === 'orange' ? 'bg-orange-50 dark:bg-orange-900/20' :
-                    'bg-red-50 dark:bg-red-900/20'
-                  }`}>
-                    <activity.icon className={`h-4 w-4 ${
-                      activity.color === 'green' ? 'text-green-600 dark:text-green-400' :
-                      activity.color === 'blue' ? 'text-blue-600 dark:text-blue-400' :
-                      activity.color === 'purple' ? 'text-purple-600 dark:text-purple-400' :
-                      activity.color === 'orange' ? 'text-orange-600 dark:text-orange-400' :
+                { name: "João Silva", email: "joao@exemplo.com", role: "admin", status: "Ativo", color: "green" },
+                { name: "Maria Santos", email: "maria@exemplo.com", role: "user", status: "Ativo", color: "green" },
+                { name: "Pedro Costa", email: "pedro@exemplo.com", role: "user", status: "Pendente", color: "yellow" },
+                { name: "Ana Oliveira", email: "ana@exemplo.com", role: "user", status: "Bloqueado", color: "red" },
+              ].map((user, i) => (
+                <div key={i} className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                  <div className="flex items-center space-x-4">
+                    <div className={`w-2 h-2 rounded-full ${
+                      user.color === 'green' ? 'bg-green-500' :
+                      user.color === 'yellow' ? 'bg-yellow-500' :
+                      'bg-red-500'
+                    }`}></div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{user.name}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{user.email}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs font-medium text-gray-900 dark:text-gray-100 capitalize">{user.role}</p>
+                    <p className={`text-xs ${
+                      user.color === 'green' ? 'text-green-600 dark:text-green-400' :
+                      user.color === 'yellow' ? 'text-yellow-600 dark:text-yellow-400' :
                       'text-red-600 dark:text-red-400'
-                    }`} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
-                      {activity.title}
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                      {activity.desc}
-                    </p>
-                  </div>
-                  <div className="text-xs text-gray-400 dark:text-gray-500">
-                    {activity.time}
+                    }`}>{user.status}</p>
                   </div>
                 </div>
               ))}
@@ -355,48 +356,52 @@ const ExampleContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (is
           </div>
         </div>
 
-        {/* Quick Stats */}
+        {/* System Status */}
         <div className="space-y-6">
           <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Estatísticas Rápidas</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Status do Sistema</h3>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600 dark:text-gray-400">Taxa de Conversão</span>
-                <span className="text-sm font-medium text-gray-900 dark:text-gray-100">3,2%</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">Servidor</span>
+                <span className="text-sm font-medium text-green-600 dark:text-green-400">Online</span>
               </div>
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                <div className="bg-blue-500 h-2 rounded-full" style={{ width: '32%' }}></div>
+                <div className="bg-green-500 h-2 rounded-full" style={{ width: '98%' }}></div>
               </div>
               
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600 dark:text-gray-400">Taxa de Rejeição</span>
-                <span className="text-sm font-medium text-gray-900 dark:text-gray-100">45%</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">Banco de Dados</span>
+                <span className="text-sm font-medium text-green-600 dark:text-green-400">Online</span>
               </div>
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                <div className="bg-orange-500 h-2 rounded-full" style={{ width: '45%' }}></div>
+                <div className="bg-green-500 h-2 rounded-full" style={{ width: '95%' }}></div>
               </div>
               
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600 dark:text-gray-400">Visualizações</span>
-                <span className="text-sm font-medium text-gray-900 dark:text-gray-100">8,7k</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">CDN</span>
+                <span className="text-sm font-medium text-yellow-600 dark:text-yellow-400">Lento</span>
               </div>
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                <div className="bg-green-500 h-2 rounded-full" style={{ width: '87%' }}></div>
+                <div className="bg-yellow-500 h-2 rounded-full" style={{ width: '67%' }}></div>
               </div>
             </div>
           </div>
 
           <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Produtos em Destaque</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Ações Rápidas</h3>
             <div className="space-y-3">
-              {['iPhone 15 Pro', 'MacBook Air M2', 'AirPods Pro', 'iPad Air'].map((product, i) => (
-                <div key={i} className="flex items-center justify-between py-2">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">{product}</span>
-                  <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                    R$ {Math.floor(Math.random() * 2000 + 1000)}
-                  </span>
-                </div>
-              ))}
+              <button className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-sm text-gray-700 dark:text-gray-300 transition-colors">
+                Fazer Backup do Sistema
+              </button>
+              <button className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-sm text-gray-700 dark:text-gray-300 transition-colors">
+                Limpar Cache
+              </button>
+              <button className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-sm text-gray-700 dark:text-gray-300 transition-colors">
+                Exportar Relatórios
+              </button>
+              <button className="w-full text-left px-3 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-sm text-red-600 dark:text-red-400 transition-colors">
+                Modo Manutenção
+              </button>
             </div>
           </div>
         </div>
@@ -405,4 +410,4 @@ const ExampleContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (is
   );
 };
 
-export default Example;
+export default AdminExample;
