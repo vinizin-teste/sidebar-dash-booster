@@ -1,4 +1,4 @@
-name: Deploy Lovable via FTP na Hostinger
+name: Deploy Vite App to Hostinger via FTP
 
 on:
   push:
@@ -30,11 +30,10 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
-          port: 21
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          port: 21
           local-dir: dist/
-          server-dir: public_html/
+          server-dir: public_html/   # 👈 importante para cair na pasta raiz do site
           dangerous-clean-slate: true
-          dry-run: false
           log-level: verbose
