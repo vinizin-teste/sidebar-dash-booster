@@ -18,10 +18,11 @@ import {
   DollarSign,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import amazonLogo from "@/assets/amazon-logo.png";
+import amazonLogo from "@/assets/amazon-logo-new.png";
 
 export const Example = () => {
   const [isDark, setIsDark] = useState(false);
+  const [selected, setSelected] = useState("Painel");
   const { signOut, profile } = useAuth();
 
   useEffect(() => {
@@ -35,16 +36,20 @@ export const Example = () => {
   return (
     <div className={`flex min-h-screen w-full ${isDark ? 'dark' : ''}`}>
       <div className="flex w-full bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100">
-        <Sidebar signOut={signOut} profile={profile} />
-        <ExampleContent isDark={isDark} setIsDark={setIsDark} />
+        <Sidebar signOut={signOut} profile={profile} selected={selected} setSelected={setSelected} />
+        <ExampleContent isDark={isDark} setIsDark={setIsDark} selected={selected} />
       </div>
     </div>
   );
 };
 
-const Sidebar = ({ signOut, profile }: { signOut: () => void; profile: any }) => {
+const Sidebar = ({ signOut, profile, selected, setSelected }: { 
+  signOut: () => void; 
+  profile: any; 
+  selected: string; 
+  setSelected: (title: string) => void 
+}) => {
   const [open, setOpen] = useState(true);
-  const [selected, setSelected] = useState("Painel");
 
   return (
     <nav
@@ -68,7 +73,6 @@ const Sidebar = ({ signOut, profile }: { signOut: () => void; profile: any }) =>
           selected={selected}
           setSelected={setSelected}
           open={open}
-          maintenance={true}
         />
         <Option
           Icon={PlayCircle}
@@ -76,7 +80,6 @@ const Sidebar = ({ signOut, profile }: { signOut: () => void; profile: any }) =>
           selected={selected}
           setSelected={setSelected}
           open={open}
-          maintenance={true}
         />
         <Option
           Icon={ShoppingCart}
@@ -84,7 +87,6 @@ const Sidebar = ({ signOut, profile }: { signOut: () => void; profile: any }) =>
           selected={selected}
           setSelected={setSelected}
           open={open}
-          maintenance={true}
         />
         <Option
           Icon={Users}
@@ -93,7 +95,6 @@ const Sidebar = ({ signOut, profile }: { signOut: () => void; profile: any }) =>
           setSelected={setSelected}
           open={open}
           notifs={12}
-          maintenance={true}
         />
       </div>
 
@@ -118,14 +119,13 @@ const Sidebar = ({ signOut, profile }: { signOut: () => void; profile: any }) =>
   );
 };
 
-const Option = ({ Icon, title, selected, setSelected, open, notifs, maintenance }: {
+const Option = ({ Icon, title, selected, setSelected, open, notifs }: {
   Icon: any;
   title: string;
   selected: string;
   setSelected: (title: string) => void;
   open: boolean;
   notifs?: number;
-  maintenance?: boolean;
 }) => {
   const isSelected = selected === title;
   
@@ -143,23 +143,16 @@ const Option = ({ Icon, title, selected, setSelected, open, notifs, maintenance 
       </div>
       
       {open && (
-        <div className="flex items-center justify-between flex-1 mr-3">
-          <span
-            className={`text-sm font-medium transition-opacity duration-200 ${
-              open ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            {title}
-          </span>
-          {maintenance && (
-            <span className="text-xs px-2 py-1 bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-300 rounded-full font-medium">
-              MANUTENÇÃO
-            </span>
-          )}
-        </div>
+        <span
+          className={`text-sm font-medium transition-opacity duration-200 ${
+            open ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          {title}
+        </span>
       )}
 
-      {notifs && open && !maintenance && (
+      {notifs && open && (
         <span className="absolute right-3 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 dark:bg-blue-600 text-xs text-white font-medium">
           {notifs}
         </span>
@@ -237,7 +230,44 @@ const ToggleClose = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean
   );
 };
 
-const ExampleContent = ({ isDark, setIsDark }: { isDark: boolean; setIsDark: (isDark: boolean) => void }) => {
+const ExampleContent = ({ isDark, setIsDark, selected }: { 
+  isDark: boolean; 
+  setIsDark: (isDark: boolean) => void;
+  selected: string;
+}) => {
+
+  const renderMaintenanceContent = (title: string) => (
+    <div className="flex-1 bg-gray-50 dark:bg-gray-950 p-6 overflow-auto">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{title}</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Esta seção está em manutenção</p>
+        </div>
+      </div>
+      
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="w-24 h-24 mx-auto mb-6 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center">
+            <Package className="w-12 h-12 text-orange-600 dark:text-orange-400" />
+          </div>
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Em Manutenção</h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md">
+            Esta funcionalidade está sendo atualizada. Voltaremos em breve com melhorias!
+          </p>
+          <div className="inline-flex items-center px-4 py-2 bg-orange-100 dark:bg-orange-900/20 rounded-lg">
+            <span className="text-sm font-medium text-orange-700 dark:text-orange-300">
+              MANUTENÇÃO EM ANDAMENTO
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (selected !== "Painel") {
+    return renderMaintenanceContent(selected);
+  }
+
   return (
     <div className="flex-1 bg-gray-50 dark:bg-gray-950 p-6 overflow-auto">
       {/* Header */}
