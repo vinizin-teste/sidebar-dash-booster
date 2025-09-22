@@ -1,4 +1,8 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 import { SignInPage, Testimonial } from "@/components/ui/sign-in";
+import { useToast } from '@/hooks/use-toast';
 
 const sampleTestimonials: Testimonial[] = [
   {
@@ -22,31 +26,94 @@ const sampleTestimonials: Testimonial[] = [
 ];
 
 const Login = () => {
-  const handleSignIn = (event: React.FormEvent<HTMLFormElement>) => {
+  const [isRegistering, setIsRegistering] = useState(false);
+  const { signIn, signUp, user, profile, loading } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (!loading && user && profile) {
+      if (profile.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
+    }
+  }, [user, profile, loading, navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const data = Object.fromEntries(formData.entries());
-    console.log("Login enviado:", data);
-    alert(`Login Enviado! Verifique o console do navegador para os dados do formulário.`);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    try {
+      await signIn(email, password);
+      // Navigation will be handled by useEffect in useAuth
+    } catch (error) {
+      // Error handling is done in useAuth hook
+    }
   };
 
-  
+  const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+    const fullName = formData.get('fullName') as string;
+
+    try {
+      await signUp(email, password, fullName);
+      setIsRegistering(false);
+      toast({
+        title: "Sucesso",
+        description: "Conta criada! Faça login para continuar."
+      });
+    } catch (error) {
+      // Error handling is done in useAuth hook
+    }
+  };
+
   const handleResetPassword = () => {
-    alert("Redefinir Senha clicado");
-  }
+    toast({
+      title: "Em breve",
+      description: "Funcionalidade de redefinir senha em desenvolvimento"
+    });
+  };
 
   const handleCreateAccount = () => {
-    alert("Criar Conta clicado");
-  }
+    setIsRegistering(true);
+  };
+
+  const handleGoogleSignIn = () => {
+    toast({
+      title: "Em breve",
+      description: "Login com Google em desenvolvimento"
+    });
+  };
 
   return (
     <div className="bg-background text-foreground">
       <SignInPage
+        title={isRegistering ? "Criar Conta" : "Bem-vindo"}
+        description={isRegistering ? "Crie sua conta e junte-se a nós" : "Acesse sua conta e continue sua jornada conosco"}
         heroImageSrc="https://imgur.com/a/PlvgXuq"
         testimonials={sampleTestimonials}
-        onSignIn={handleSignIn}
+        onSignIn={isRegistering ? handleSignUp : handleSignIn}
+        onGoogleSignIn={handleGoogleSignIn}
         onResetPassword={handleResetPassword}
         onCreateAccount={handleCreateAccount}
+        isRegistering={isRegistering}
+        onBackToLogin={() => setIsRegistering(false)}
       />
     </div>
   );
