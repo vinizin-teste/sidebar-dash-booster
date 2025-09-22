@@ -30,10 +30,6 @@ const Login = () => {
     alert(`Login Enviado! Verifique o console do navegador para os dados do formulário.`);
   };
 
-  const handleGoogleSignIn = () => {
-    console.log("Continuar com Google clicado");
-    alert("Continuar com Google clicado");
-  };
   
   const handleResetPassword = () => {
     alert("Redefinir Senha clicado");
@@ -46,10 +42,9 @@ const Login = () => {
   return (
     <div className="bg-background text-foreground">
       <SignInPage
-        heroImageSrc="https://images.unsplash.com/photo-1642615835477-d303d7dc9ee9?w=2160&q=80"
+        heroImageSrc="https://imgur.com/a/PlvgXuq"
         testimonials={sampleTestimonials}
         onSignIn={handleSignIn}
-        onGoogleSignIn={handleGoogleSignIn}
         onResetPassword={handleResetPassword}
         onCreateAccount={handleCreateAccount}
       />
