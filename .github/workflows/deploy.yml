@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -20,8 +21,23 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
+      - name: Criar arquivo .env para produção
+        run: |
+          echo "VITE_SUPABASE_URL=${{ secrets.VITE_SUPABASE_URL }}" > .env
+          echo "VITE_SUPABASE_PUBLISHABLE_KEY=${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}" >> .env
+          echo "VITE_SUPABASE_PROJECT_ID=${{ secrets.VITE_SUPABASE_PROJECT_ID }}" >> .env
+
       - name: Build do projeto
         run: npm run build
+
+      - name: Copiar .htaccess para dist
+        run: |
+          if [ -f "public/.htaccess" ]; then
+            cp public/.htaccess dist/.htaccess
+            echo "✓ .htaccess copiado para dist/"
+          else
+            echo "⚠️ Arquivo public/.htaccess não encontrado"
+          fi
 
       - name: Verificar se o build foi criado
         run: |
@@ -57,7 +73,7 @@ jobs:
           password: ${{ secrets.FTP_PASS }}
           local-dir: dist/
           server-dir: /public_html/
-          dangerous-clean-slate: false
+          dangerous-clean-slate: true
           dry-run: false
           log-level: verbose
           exclude: |
@@ -65,3 +81,12 @@ jobs:
             **/.git*/**
             **/node_modules/**
             **/.DS_Store
+
+      - name: Verificar deploy
+        run: |
+          echo "✅ Deploy concluído!"
+          echo "🌐 Verifique seu site em alguns minutos"
+          echo "📝 Se ainda não funcionar, verifique:"
+          echo "   - Se as secrets do GitHub estão configuradas"
+          echo "   - Se o diretório /public_html/ está correto"
+          echo "   - Se não há arquivos index.php conflitantes"
