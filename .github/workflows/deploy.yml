@@ -23,8 +23,30 @@ jobs:
       - name: Build do projeto
         run: npm run build
 
+      - name: Verificar se o build foi criado
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "Erro: Pasta dist não foi criada"
+            exit 1
+          fi
+          
       - name: Mostrar arquivos gerados
-        run: ls -al dist/
+        run: |
+          echo "=== Conteúdo da pasta dist ==="
+          ls -la dist/
+          echo "=== Verificando se index.html existe ==="
+          if [ -f "dist/index.html" ]; then
+            echo "✓ index.html encontrado"
+          else
+            echo "✗ index.html NÃO encontrado"
+            exit 1
+          fi
+          echo "=== Verificando se .htaccess existe ==="
+          if [ -f "dist/.htaccess" ]; then
+            echo "✓ .htaccess encontrado"
+          else
+            echo "✗ .htaccess não encontrado (isso pode ser normal)"
+          fi
 
       - name: Deploy FTP para Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -34,7 +56,12 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           local-dir: dist/
-          server-dir: /
-          dangerous-clean-slate: true
+          server-dir: /public_html/
+          dangerous-clean-slate: false
           dry-run: false
           log-level: verbose
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/.DS_Store
